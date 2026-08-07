@@ -13,7 +13,10 @@ export default function ProductModal({ product, onClose }) {
   const [type, setType] = useState('short')
   const [size, setSize] = useState('S')
   const [variantIndex, setVariantIndex] = useState(0)
-  const [photoIndex, setPhotoIndex] = useState(0)
+  // Arranca ya en una foto del tipo por defecto, no en la primera del diseño.
+  const [photoIndex, setPhotoIndex] = useState(() =>
+    photoIndexFor(product.variants[0], 'short'),
+  )
   const dragControls = useDragControls()
 
   const variant = product.variants[variantIndex]
