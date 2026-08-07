@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vite
+
+# Despliegue
+.vercel
+
+# Herramientas locales
+.claude
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

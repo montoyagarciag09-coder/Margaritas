@@ -1,0 +1,145 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Design tokens — paleta original de Margaritas conservada intacta.
+   Los tonos derivados (blush, sand, mist) sólo interpolan entre ellos.
+------------------------------------------------------------------- */
+@theme {
+  --color-nude: #e0cbb9;
+  --color-wine: #461b14;
+  --color-rose: #7d5255;
+  --color-cream: #fcfafa;
+
+  --color-blush: #f2e5da;
+  --color-sand: #ead9c9;
+  --color-mist: #f7f1ec;
+  --color-wine-soft: #5d2a20;
+
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(0, -26px, 0) scale(1.05);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-wine);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  ::selection {
+    background-color: var(--color-nude);
+    color: var(--color-wine);
+  }
+
+  /* Scrollbar en tonos de la marca */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-mist);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-nude);
+    border-radius: 999px;
+    border: 2px solid var(--color-mist);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-rose);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Logotipo — se conserva el tratamiento original del wordmark */
+  .wordmark {
+    font-family: var(--font-display);
+    font-style: italic;
+    letter-spacing: 0.18em;
+  }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Grano sutil sobre las secciones claras */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  .text-gradient-wine {
+    background: linear-gradient(
+      100deg,
+      var(--color-wine) 0%,
+      var(--color-rose) 45%,
+      var(--color-wine) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
