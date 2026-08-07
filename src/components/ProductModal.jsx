@@ -13,10 +13,8 @@ export default function ProductModal({ product, onClose }) {
   const [type, setType] = useState('short')
   const [size, setSize] = useState('S')
   const [variantIndex, setVariantIndex] = useState(0)
-  // Arranca ya en una foto del tipo por defecto, no en la primera del diseño.
-  const [photoIndex, setPhotoIndex] = useState(() =>
-    photoIndexFor(product.variants[0], 'short'),
-  )
+  // Siempre se abre en la primera foto del diseño.
+  const [photoIndex, setPhotoIndex] = useState(0)
   const dragControls = useDragControls()
 
   const variant = product.variants[variantIndex]
@@ -29,19 +27,32 @@ export default function ProductModal({ product, onClose }) {
     setPhotoIndex(photoIndexFor(variant, nextType))
   }
 
-  /** Al cambiar de color, muestra la foto que mejor encaja con el tipo elegido. */
+  /** Al cambiar de color, vuelve a empezar por su primera foto. */
   function selectVariant(index) {
     setVariantIndex(index)
-    setPhotoIndex(photoIndexFor(product.variants[index], type))
+    setPhotoIndex(0)
+  }
+
+  /** Pasa de foto dentro del diseño actual, en bucle. */
+  function movePhoto(step) {
+    const total = variant.photos.length
+    if (total < 2) return
+    setPhotoIndex((i) => (i + step + total) % total)
   }
 
   useLockBodyScroll(true)
 
   useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && onClose()
+    const total = variant.photos.length
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (total < 2) return
+      if (e.key === 'ArrowRight') setPhotoIndex((i) => (i + 1) % total)
+      if (e.key === 'ArrowLeft') setPhotoIndex((i) => (i - 1 + total) % total)
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  }, [onClose, variant])
 
   const price = getPrice(product, type, size)
 
@@ -82,9 +93,19 @@ export default function ProductModal({ product, onClose }) {
             entero para no secuestrar el scroll del contenido. */}
         <div
           onPointerDown={(event) => dragControls.start(event)}
-          className="sticky top-0 z-20 flex touch-none justify-center bg-gradient-to-b from-cream via-cream to-transparent pt-3 pb-3 md:hidden"
+          className="sticky top-0 z-30 flex touch-none items-center justify-center bg-gradient-to-b from-cream via-cream to-transparent pt-3.5 pb-3 md:hidden"
         >
           <span className="h-1.5 w-11 rounded-full bg-wine/25" />
+          <button
+            type="button"
+            onClick={onClose}
+            // Evita que el toque sobre la X inicie el arrastre de la hoja.
+            onPointerDown={(event) => event.stopPropagation()}
+            aria-label="Cerrar"
+            className="absolute right-2 flex h-11 w-11 items-center justify-center rounded-full text-wine"
+          >
+            <CloseIcon />
+          </button>
         </div>
 
         <button
@@ -100,20 +121,35 @@ export default function ProductModal({ product, onClose }) {
             columna mande sobre el tamaño y no la razón de aspecto. */}
         <div className="relative bg-mist md:min-h-[34rem]">
           <div className="relative aspect-square w-full overflow-hidden md:absolute md:inset-0 md:aspect-auto">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={`${variantIndex}-${photoIndex}`}
-                src={currentImage.src}
-                srcSet={currentImage.srcSet}
-                sizes={IMAGE_SIZES.modal}
-                alt={`Pijama ${product.name} — ${variant.label}`}
-                className="absolute inset-0 h-full w-full object-cover"
-                initial={{ opacity: 0, scale: 1.06 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6, ease: EASE }}
-              />
-            </AnimatePresence>
+            {/* Se desliza en horizontal para pasar de foto. `dragDirectionLock`
+                deja que el gesto vertical siga siendo scroll del panel. */}
+            <motion.div
+              className="absolute inset-0"
+              drag={variant.photos.length > 1 ? 'x' : false}
+              dragDirectionLock
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.18}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -55 || info.velocity.x < -420) movePhoto(1)
+                else if (info.offset.x > 55 || info.velocity.x > 420) movePhoto(-1)
+              }}
+            >
+              <AnimatePresence mode="wait" custom={photoIndex}>
+                <motion.img
+                  key={`${variantIndex}-${photoIndex}`}
+                  src={currentImage.src}
+                  srcSet={currentImage.srcSet}
+                  sizes={IMAGE_SIZES.modal}
+                  alt={`Pijama ${product.name} — ${variant.label}`}
+                  draggable={false}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  initial={{ opacity: 0, scale: 1.06 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                />
+              </AnimatePresence>
+            </motion.div>
 
             {/* Aclara qué prenda aparece cuando no hay foto del tipo elegido. */}
             <AnimatePresence>

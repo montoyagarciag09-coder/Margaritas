@@ -140,7 +140,16 @@ export default function ProductCard({ product, index, onQuickView }) {
 
             <motion.button
               type="button"
-              onClick={() => orderOnWhatsapp(product, type, size)}
+              // Si la referencia tiene un solo diseño no hay ambigüedad y se
+              // envía; con varios, la elección se hace en la vista rápida.
+              onClick={() =>
+                orderOnWhatsapp(
+                  product,
+                  type,
+                  size,
+                  product.variants.length === 1 ? product.variants[0].label : undefined,
+                )
+              }
               className="group/btn relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-wine px-5 py-3.5 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-nude"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
