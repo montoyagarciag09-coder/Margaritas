@@ -1,10 +1,4 @@
-// WebP generados por `npm run optimize:images` desde las fotos de `pijamas/`.
-import samanthaSatinAzul from '../assets/samantha-satin-azul.webp'
-import samanthaSatinBlanco from '../assets/samantha-satin-blanco.webp'
-import samanthaSatinAnimal from '../assets/samantha-satin-animal.webp'
-import samanthaAlgodon from '../assets/samantha-algodon-lineas.webp'
-import geraldineAzul from '../assets/geraldine-azul.webp'
-import geraldineRosado from '../assets/geraldine-rosado.webp'
+import { image } from '../lib/images'
 
 export const WHATSAPP_NUMBER = '573008310528'
 export const INSTAGRAM_URL = 'https://www.instagram.com/margaritas___col/'
@@ -21,11 +15,11 @@ export const TYPES = [
 ]
 
 /**
- * Cada foto declara en `garment` la prenda que aparece retratada. No todas las
- * referencias tienen foto de las dos versiones, así que la galería la usa para
- * preferir la que coincide con el tipo elegido y para avisar cuando no coincide.
+ * Cada referencia tiene `variants`: un diseño de tela con una o varias fotos.
+ * Las fotos del mismo diseño viven juntas para que se muestren en la misma
+ * sección de color. `garment` dice qué prenda aparece retratada, y la galería
+ * lo usa para preferir la foto que coincide con el tipo elegido.
  */
-
 export const products = [
   {
     id: 'samantha-satin',
@@ -38,10 +32,22 @@ export const products = [
       'Camisa con solapa y ribete en contraste',
       'Disponible en tres diseños de tela',
     ],
-    images: [
-      { src: samanthaSatinAzul, label: 'Azul marino', garment: 'short' },
-      { src: samanthaSatinBlanco, label: 'Blanco', garment: 'short' },
-      { src: samanthaSatinAnimal, label: 'Animal print', garment: 'short' },
+    variants: [
+      {
+        label: 'Azul marino',
+        photos: [{ ...image('samantha-satin-azul'), garment: 'short' }],
+      },
+      {
+        label: 'Blanco',
+        photos: [{ ...image('samantha-satin-blanco'), garment: 'short' }],
+      },
+      {
+        label: 'Animal print',
+        photos: [
+          { ...image('samantha-satin-animal-short'), garment: 'short' },
+          { ...image('samantha-satin-animal-pantalon'), garment: 'pantalon' },
+        ],
+      },
     ],
     prices: { short: 75000, pantalon: 80000 },
     accent: '#2C3E6B',
@@ -57,7 +63,12 @@ export const products = [
       'Corte relajado que no aprieta',
       'Ideal para el uso diario',
     ],
-    images: [{ src: samanthaAlgodon, label: 'Lila con líneas', garment: 'short' }],
+    variants: [
+      {
+        label: 'Lila con líneas',
+        photos: [{ ...image('samantha-algodon-lineas'), garment: 'short' }],
+      },
+    ],
     prices: { short: 65000, pantalon: 75000 },
     accent: '#7D5255',
   },
@@ -72,11 +83,32 @@ export const products = [
       'Blusa cruzada con lazos al frente',
       'Pensada para clima cálido',
     ],
-    images: [
-      { src: geraldineAzul, label: 'Azul cielo', garment: 'short' },
-      { src: geraldineRosado, label: 'Rosado', garment: 'pantalon' },
+    variants: [
+      {
+        label: 'Azul cielo',
+        photos: [
+          { ...image('geraldine-azul-pantalon'), garment: 'pantalon' },
+          { ...image('geraldine-azul-blusa'), garment: 'short' },
+          { ...image('geraldine-azul-short'), garment: 'short' },
+        ],
+      },
+      {
+        label: 'Rosado',
+        photos: [{ ...image('geraldine-rosado-pantalon'), garment: 'pantalon' }],
+      },
     ],
     prices: { short: 65000, pantalon: 75000 },
     accent: '#B08968',
   },
 ]
+
+/** Foto de portada de una referencia (tarjeta y vitrina del hero). */
+export function coverPhoto(product) {
+  return product.variants[0].photos[0]
+}
+
+/** Índice de la primera foto del diseño que retrata `type`; 0 si no hay. */
+export function photoIndexFor(variant, type) {
+  const match = variant.photos.findIndex((photo) => photo.garment === type)
+  return match === -1 ? 0 : match
+}

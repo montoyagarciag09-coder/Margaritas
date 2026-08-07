@@ -11,7 +11,9 @@ export default function DaisyField({ items }) {
       {items.map((item, i) => (
         <motion.div
           key={i}
-          className="absolute"
+          // En móvil sólo se dejan las dos primeras de cada grupo: menos
+          // elementos animados y menos ruido en pantalla pequeña.
+          className={`absolute ${i > 1 ? 'hidden sm:block' : ''}`}
           style={{
             top: item.top,
             left: item.left,

@@ -4,7 +4,9 @@ import { EASE, viewport } from '../lib/motion'
 import Reveal, { SplitHeading } from './Reveal'
 import { Daisy } from './Icons'
 import DaisyField from './DaisyField'
-import essenceImage from '../assets/samantha-satin-blanco.webp'
+import { image, IMAGE_SIZES } from '../lib/images'
+
+const essenceImage = image('samantha-satin-blanco')
 
 const PARAGRAPHS = [
   'Margaritas nace para acompañar esos momentos íntimos donde el ruido se apaga y solo queda lo que realmente importa: tu calma, tu cuerpo, tu forma de sentir.',
@@ -53,9 +55,12 @@ export default function Essence() {
               }}
             >
               <motion.img
-                src={essenceImage}
+                src={essenceImage.src}
+                srcSet={essenceImage.srcSet}
+                sizes={IMAGE_SIZES.essence}
                 alt="Pijama Margaritas en satín"
                 loading="lazy"
+                decoding="async"
                 style={{ y: imageY, scale: imageScale }}
                 className="h-full w-full object-cover"
               />

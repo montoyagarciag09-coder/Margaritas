@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { EASE, viewport } from '../lib/motion'
-import { SIZES, TYPES } from '../data/products'
+import { coverPhoto, SIZES, TYPES } from '../data/products'
+import { IMAGE_SIZES } from '../lib/images'
 import { getPrice, hasSurcharge } from '../lib/pricing'
 import { orderOnWhatsapp } from '../lib/whatsapp'
 import AnimatedPrice from './AnimatedPrice'
@@ -31,9 +32,12 @@ export default function ProductCard({ product, index, onQuickView }) {
 
       <div className="relative aspect-square overflow-hidden bg-mist">
         <motion.img
-          src={product.images[0].src}
+          src={coverPhoto(product).src}
+          srcSet={coverPhoto(product).srcSet}
+          sizes={IMAGE_SIZES.card}
           alt={`Pijama ${product.name}`}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
           whileHover={{ scale: 1.08 }}
           transition={{ duration: 1, ease: EASE }}
@@ -46,9 +50,9 @@ export default function ProductCard({ product, index, onQuickView }) {
           {product.tagline}
         </span>
 
-        {product.images.length > 1 && (
+        {product.variants.length > 1 && (
           <span className="absolute right-4 top-4 rounded-full bg-wine/85 px-3 py-1.5 text-[0.6rem] uppercase tracking-[0.2em] text-nude backdrop-blur-sm">
-            {product.images.length} diseños
+            {product.variants.length} diseños
           </span>
         )}
 
@@ -56,7 +60,7 @@ export default function ProductCard({ product, index, onQuickView }) {
         <motion.button
           type="button"
           onClick={() => onQuickView(product)}
-          className="absolute inset-x-4 bottom-4 flex items-center justify-center gap-2 rounded-full bg-cream/90 py-3 text-[0.62rem] uppercase tracking-[0.22em] text-wine backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
+          className="absolute inset-x-4 bottom-4 flex min-h-11 items-center justify-center gap-2 rounded-full bg-cream/90 text-[0.62rem] uppercase tracking-[0.22em] text-wine backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -79,7 +83,7 @@ export default function ProductCard({ product, index, onQuickView }) {
                   key={option.value}
                   type="button"
                   onClick={() => setType(option.value)}
-                  className={`relative flex-1 rounded-full px-4 py-2 text-xs font-medium transition-colors duration-300 ${
+                  className={`relative min-h-11 flex-1 rounded-full px-4 text-sm font-medium transition-colors duration-300 ${
                     type === option.value ? 'text-nude' : 'text-wine/60 hover:text-wine'
                   }`}
                 >
@@ -106,7 +110,7 @@ export default function ProductCard({ product, index, onQuickView }) {
                   type="button"
                   onClick={() => setSize(option)}
                   whileTap={{ scale: 0.92 }}
-                  className={`relative h-9 min-w-9 rounded-full border px-3 text-xs font-medium transition-colors duration-300 ${
+                  className={`relative h-11 min-w-11 rounded-full border px-3.5 text-sm font-medium transition-colors duration-300 ${
                     size === option
                       ? 'border-wine bg-wine text-nude'
                       : 'border-wine/15 text-wine/65 hover:border-wine/45 hover:text-wine'

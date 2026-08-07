@@ -44,7 +44,7 @@ export default function Footer() {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-nude px-6 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-wine"
+                className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-nude px-6 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-wine"
                 whileHover={{ scale: 1.05, backgroundColor: '#FCFAFA' }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: 0.3, ease: EASE }}
@@ -68,7 +68,7 @@ export default function Footer() {
                     )}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="group inline-flex items-center gap-2 text-sm text-nude/70 transition-colors hover:text-cream"
+                    className="group inline-flex min-h-11 items-center gap-2 text-sm text-nude/70 transition-colors hover:text-cream"
                   >
                     <span className="h-px w-0 bg-nude transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-5" />
                     {label}
@@ -88,7 +88,7 @@ export default function Footer() {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 block font-display text-2xl italic text-nude transition-opacity hover:opacity-75"
+                className="mt-6 inline-flex min-h-11 items-center font-display text-2xl italic text-nude transition-opacity hover:opacity-75"
               >
                 +57 300 831 0528
               </a>

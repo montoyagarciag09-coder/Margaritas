@@ -38,7 +38,7 @@ export default function Navbar() {
           <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
             <a
               href="#inicio"
-              className="wordmark text-xl font-semibold text-wine transition-opacity hover:opacity-70 md:text-2xl"
+              className="wordmark inline-flex min-h-11 items-center text-xl font-semibold text-wine transition-opacity hover:opacity-70 md:text-2xl"
             >
               MARGARITAS
             </a>
@@ -75,7 +75,7 @@ export default function Navbar() {
                 onClick={() => setOpen((v) => !v)}
                 aria-label="Abrir menú"
                 aria-expanded={open}
-                className="relative flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-full border border-wine/15 text-wine lg:hidden"
+                className="relative flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full border border-wine/15 text-wine lg:hidden"
               >
                 <motion.span
                   className="block h-px w-4 bg-wine"

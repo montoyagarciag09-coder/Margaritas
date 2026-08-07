@@ -4,7 +4,9 @@ import { EASE } from '../lib/motion'
 import { SplitHeading } from './Reveal'
 import { ArrowIcon, Daisy } from './Icons'
 import DaisyField from './DaisyField'
-import { products } from '../data/products'
+import { coverPhoto, products } from '../data/products'
+import { IMAGE_SIZES } from '../lib/images'
+import { useAutoCarousel } from '../hooks/useAutoCarousel'
 
 export default function Hero() {
   const ref = useRef(null)
@@ -15,6 +17,8 @@ export default function Hero() {
 
   // Ambos bloques se desplazan en la misma dirección a distinta velocidad: si se
   // movieran uno hacia el otro, la vitrina acabaría tapando los botones del hero.
+  const carousel = useAutoCarousel({ interval: 3600 })
+
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
   const textOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
   const showcaseY = useTransform(scrollYProgress, [0, 1], ['0%', '5%'])
@@ -113,35 +117,62 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Vitrina en arco con revelado escalonado */}
-      <motion.div
-        style={{ y: showcaseY }}
-        className="relative z-0 mx-auto mt-28 grid max-w-5xl grid-cols-3 gap-3 px-6 md:mt-32 md:gap-6"
-      >
-        {products.map((product, i) => (
-          <motion.figure
-            key={product.id}
-            className={`relative overflow-hidden rounded-t-[999px] bg-nude/40 shadow-[0_30px_60px_-40px_rgba(70,27,20,0.6)] ${
-              i === 1 ? 'aspect-[3/4.4] md:-mt-10' : 'aspect-[3/4]'
-            }`}
-            initial={{ opacity: 0, y: 70, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.1, ease: EASE, delay: 1 + i * 0.13 }}
-            whileHover={{ y: -10 }}
-          >
-            <img
-              src={product.images[0].src}
-              alt={`Pijama ${product.name}`}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-110"
-            />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-wine/85 to-transparent p-4 pt-10 text-center">
-              <span className="font-display text-xs italic text-nude md:text-base">
-                {product.name}
-              </span>
-            </figcaption>
-          </motion.figure>
-        ))}
+      {/* Vitrina en arco. En móvil es un carrusel con scroll-snap: tres columnas
+          en 375px dejaban las fotos en 95px de ancho, ilegibles. */}
+      <motion.div style={{ y: showcaseY }} className="relative z-0 mt-24 md:mt-32">
+        <div
+          ref={carousel.ref}
+          className="mx-auto flex max-w-5xl snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [scrollbar-width:none] sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible [&::-webkit-scrollbar]:hidden"
+        >
+          {products.map((product, i) => (
+            <motion.figure
+              key={product.id}
+              className={`relative w-[68vw] shrink-0 snap-center overflow-hidden rounded-t-[999px] bg-nude/40 shadow-[0_30px_60px_-40px_rgba(70,27,20,0.6)] sm:w-auto ${
+                i === 1 ? 'aspect-[3/4.2] sm:-mt-10' : 'aspect-[3/4]'
+              }`}
+              initial={{ opacity: 0, y: 70, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.1, ease: EASE, delay: 1 + i * 0.13 }}
+              whileHover={{ y: -10 }}
+            >
+              <img
+                src={coverPhoto(product).src}
+                srcSet={coverPhoto(product).srcSet}
+                sizes={IMAGE_SIZES.hero}
+                alt={`Pijama ${product.name}`}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-110"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-wine/85 to-transparent p-4 pt-10 text-center">
+                <span className="font-display text-sm italic text-nude md:text-base">
+                  {product.name}
+                </span>
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
+
+        {/* Indicadores de posición (sustituyen al texto "desliza", que se
+            duplicaba con la señal de scroll de más abajo). */}
+        <div className="mt-2 flex justify-center gap-2 sm:hidden">
+          {products.map((product, i) => (
+            <button
+              key={product.id}
+              type="button"
+              onClick={() => carousel.goTo(i)}
+              aria-label={`Ver ${product.name}`}
+              aria-current={carousel.active === i}
+              className="flex h-11 w-6 items-center justify-center"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  carousel.active === i ? 'w-6 bg-wine/70' : 'w-1.5 bg-wine/25'
+                }`}
+              />
+            </button>
+          ))}
+        </div>
       </motion.div>
 
       <motion.div
