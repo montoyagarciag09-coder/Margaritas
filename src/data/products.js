@@ -49,7 +49,7 @@ export const products = [
         ],
       },
     ],
-    prices: { short: 75000, pantalon: 80000 },
+    prices: { short: 90000, pantalon: 95000 },
     accent: '#2C3E6B',
   },
   {
@@ -69,7 +69,7 @@ export const products = [
         photos: [{ ...image('samantha-algodon-lineas'), garment: 'short' }],
       },
     ],
-    prices: { short: 65000, pantalon: 75000 },
+    prices: { short: 80000, pantalon: 90000 },
     accent: '#7D5255',
   },
   {
@@ -97,7 +97,7 @@ export const products = [
         photos: [{ ...image('geraldine-rosado-pantalon'), garment: 'pantalon' }],
       },
     ],
-    prices: { short: 65000, pantalon: 75000 },
+    prices: { short: 80000, pantalon: 90000 },
     accent: '#B08968',
   },
 ]
