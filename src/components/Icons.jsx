@@ -68,3 +68,41 @@ export function Daisy({ className = 'h-10 w-10', petals = 8 }) {
     </svg>
   )
 }
+
+/** Moño coquette. `draw` anima el trazo con Framer (pathLength). */
+export function Bow({ className = 'h-10 w-10', strokeWidth = 1.4 }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 64 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M32 20C26 10 12 4 7 9c-5 5 1 17 10 17 6 0 11-3 15-6z" />
+      <path d="M32 20c6-10 20-16 25-11 5 5-1 17-10 17-6 0-11-3-15-6z" />
+      <path d="M29 22c-3 6-8 14-13 22M35 22c3 6 8 14 13 22" />
+      <ellipse cx="32" cy="21" rx="4" ry="4.5" fill="currentColor" fillOpacity="0.15" />
+    </svg>
+  )
+}
+
+/** Destello de cuatro puntas. */
+export function Sparkle({ className = 'h-4 w-4' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z" />
+    </svg>
+  )
+}
+
+export function Heart({ className = 'h-4 w-4' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.7 4.2 7.2C19.5 16.4 12 21 12 21z" />
+    </svg>
+  )
+}

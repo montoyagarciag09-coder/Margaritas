@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useDragControls } from 'framer-motion'
 import { EASE } from '../lib/motion'
-import { photoIndexFor, SIZES, TYPES } from '../data/products'
+import { OVERSIZE_SURCHARGE, photoIndexFor, SHIPPING_NOTICE, SIZES, TYPES } from '../data/products'
 import { getPrice, hasSurcharge } from '../lib/pricing'
-import { orderOnWhatsapp } from '../lib/whatsapp'
+import { useCart } from '../cart/CartContext'
+import { formatCOP } from '../lib/pricing'
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll'
 import { IMAGE_SIZES } from '../lib/images'
 import AnimatedPrice from './AnimatedPrice'
-import { CloseIcon, WhatsappIcon } from './Icons'
+import { CloseIcon } from './Icons'
+import { BagIcon } from '../cart/CartUI'
 
 export default function ProductModal({ product, onClose }) {
   const [type, setType] = useState('short')
@@ -55,6 +57,14 @@ export default function ProductModal({ product, onClose }) {
   }, [onClose, variant])
 
   const price = getPrice(product, type, size)
+  const cart = useCart()
+
+  /** Agrega la selección actual; "Comprar ahora" además abre el carrito. */
+  function addToCart(checkout) {
+    cart.add({ kind: 'pijama', id: product.id, variant: variant.label, type, size })
+    onClose()
+    if (checkout) cart.setOpen(true)
+  }
 
   return (
     <motion.div
@@ -65,7 +75,7 @@ export default function ProductModal({ product, onClose }) {
       transition={{ duration: 0.35 }}
     >
       <div
-        className="absolute inset-0 bg-wine/45 backdrop-blur-md"
+        className="absolute inset-0 bg-wine/50 backdrop-blur-lg"
         onClick={onClose}
         aria-hidden
       />
@@ -75,7 +85,7 @@ export default function ProductModal({ product, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={product.name}
-        className="relative grid max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-[1.75rem] bg-cream shadow-2xl md:max-h-[90vh] md:grid-cols-2 md:rounded-[1.75rem]"
+        className="relative grid max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-[2.5rem] bg-pearl shadow-2xl md:max-h-[90vh] md:grid-cols-2 md:rounded-[2.5rem]"
         initial={{ opacity: 0, y: '18%' }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: '12%' }}
@@ -93,7 +103,7 @@ export default function ProductModal({ product, onClose }) {
             entero para no secuestrar el scroll del contenido. */}
         <div
           onPointerDown={(event) => dragControls.start(event)}
-          className="sticky top-0 z-30 flex touch-none items-center justify-center bg-gradient-to-b from-cream via-cream to-transparent pt-3.5 pb-3 md:hidden"
+          className="sticky top-0 z-30 flex touch-none items-center justify-center bg-gradient-to-b from-pearl via-pearl to-transparent pt-3.5 pb-3 md:hidden"
         >
           <span className="h-1.5 w-11 rounded-full bg-wine/25" />
           <button
@@ -230,7 +240,7 @@ export default function ProductModal({ product, onClose }) {
             <span key="tag" className="eyebrow text-wine/50">
               {product.tagline}
             </span>,
-            <h3 key="name" className="mt-3 font-display text-4xl italic text-wine">
+            <h3 key="name" className="mt-3 font-display text-5xl italic text-wine">
               {product.name}
             </h3>,
             <p key="desc" className="mt-4 text-sm leading-relaxed text-wine/65">
@@ -306,30 +316,42 @@ export default function ProductModal({ product, onClose }) {
                 animate={{ opacity: hasSurcharge(size) ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                Talla especial · +$10.000
+                Talla especial · +{formatCOP(OVERSIZE_SURCHARGE)}
               </motion.p>
+              <p className="mt-3 rounded-2xl bg-petal/60 px-4 py-3 text-xs italic text-wine/70">
+                {SHIPPING_NOTICE}
+              </p>
             </div>
 
             {/* En móvil queda fijo al fondo de la hoja: el precio y el CTA
                 siempre visibles aunque se desplace el detalle. */}
             {/* Fijo al fondo del panel en todos los anchos: en pantallas medianas
                 el detalle también supera el alto disponible. */}
-            <div className="sticky bottom-0 -mx-7 flex items-center justify-between gap-4 border-t border-wine/10 bg-cream px-7 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:-mx-9 md:px-9 md:pb-5">
+            <div className="sticky bottom-0 -mx-7 flex items-center justify-between gap-4 border-t border-wine/10 bg-pearl px-7 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:-mx-9 md:px-9 md:pb-5">
               <AnimatedPrice
                 value={price}
                 className="font-display text-3xl text-wine tabular-nums md:text-4xl"
               />
-              <motion.button
-                type="button"
-                onClick={() => orderOnWhatsapp(product, type, size, variant.label)}
-                className="inline-flex min-h-14 items-center gap-2.5 rounded-full bg-wine px-6 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-nude"
-                whileHover={{ scale: 1.04, backgroundColor: '#7D5255' }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ duration: 0.3, ease: EASE }}
-              >
-                <WhatsappIcon className="h-4 w-4" />
-                Pedir por WhatsApp
-              </motion.button>
+              <div className="flex flex-col items-end gap-1.5">
+                <motion.button
+                  type="button"
+                  onClick={() => addToCart(false)}
+                  className="inline-flex min-h-14 items-center gap-2.5 rounded-full bg-wine px-6 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-nude"
+                  whileHover={{ scale: 1.04, backgroundColor: '#7D5255' }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ duration: 0.3, ease: EASE }}
+                >
+                  <BagIcon className="h-4 w-4" />
+                  Agregar al carrito
+                </motion.button>
+                <button
+                  type="button"
+                  onClick={() => addToCart(true)}
+                  className="px-2 text-[0.65rem] uppercase tracking-[0.18em] text-wine/60 underline-offset-4 hover:text-wine hover:underline"
+                >
+                  Comprar ahora
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>

@@ -27,6 +27,11 @@ const IMAGES = [
   ['Geraldine (3)1.jpeg', 'geraldine-azul-blusa'],
   ['Geraldine (3)2.jpeg', 'geraldine-azul-short'],
   ['Geraldine (2).png', 'geraldine-rosado-pantalon'],
+  // Fotos verticales: se escalan por ancho para que el `srcset` sea exacto.
+  ['Scrunchies (1).jpg', 'scrunchies-crema-animal-azul', { portrait: true }],
+  ['Scrunchies (2).jpg', 'scrunchies-vino-rosado', { portrait: true }],
+  ['Scrunchies (3).jpg', 'scrunchies-negro-lila-celeste', { portrait: true }],
+  ['Gorro (1).jpg', 'gorro-negro', { portrait: true, optional: true }],
 ]
 
 /** Anchos generados para el `srcset`. El navegador elige según el dispositivo. */
@@ -47,16 +52,28 @@ for (const file of await readdir(OUTPUT_DIR)) {
 let before = 0
 let after = 0
 
-for (const [source, name] of IMAGES) {
+for (const [source, name, options = {}] of IMAGES) {
   const input = join(SOURCE_DIR, source)
-  const { size: inputSize } = await stat(input)
+  const info = await stat(input).catch(() => null)
+  if (!info) {
+    if (options.optional) {
+      console.log(`${name.padEnd(26)} (falta pijamas/${source}, se omite)`)
+      continue
+    }
+    throw new Error(`No existe pijamas/${source}`)
+  }
+  const inputSize = info.size
   before += inputSize
 
   const generated = []
   for (const width of WIDTHS) {
     const output = join(OUTPUT_DIR, `${name}-${width}.webp`)
     await sharp(input)
-      .resize(width, width, { fit: 'inside', withoutEnlargement: true })
+      .resize(
+        options.portrait
+          ? { width, withoutEnlargement: true }
+          : { width, height: width, fit: 'inside', withoutEnlargement: true },
+      )
       .webp({ quality: QUALITY, effort: 6 })
       .toFile(output)
     const { size } = await stat(output)

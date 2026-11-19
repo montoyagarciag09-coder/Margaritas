@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Margaritas · Logotipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="favicon.svg" />
+<style>
+  body { margin: 0; font-family: Montserrat, sans-serif; background: #FBF6F1; color: #461B14; }
+  header { padding: 48px 24px 8px; max-width: 1100px; margin: auto; }
+  h1 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 44px; margin: 0; }
+  p { color: #7D5255; font-size: 14px; line-height: 1.6; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 24px; max-width: 1100px; margin: auto; }
+  figure { margin: 0; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 16px; align-items: center; justify-content: center; min-height: 240px; background: #fff; border: 1px solid #461B1414; }
+  figure.dark { background: #461B14; color: #E0CBB9; }
+  figure.blush { background: #F1D9D6; }
+  figure img { max-width: 100%; max-height: 200px; }
+  figcaption { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; opacity: .6; }
+  .wide { grid-column: 1 / -1; }
+  .swatches { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .sw { width: 92px; text-align: center; font-size: 11px; }
+  .sw i { display: block; height: 64px; border-radius: 999px 999px 16px 16px; margin-bottom: 8px; border: 1px solid #461B1414; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Margaritas — logotipo</h1>
+  <p>Una margarita de doce pétalos, alternando largos y cortos para que se sienta hecha a mano.
+  El centro lleva un anillo de puntitos, como el polen. Acompaña al wordmark original en
+  Playfair Display itálica.</p>
+</header>
+<section class="grid">
+  <figure class="wide"><img src="margaritas-horizontal.svg" alt="Logotipo horizontal" /><figcaption>Horizontal</figcaption></figure>
+  <figure class="dark wide"><img src="margaritas-horizontal-claro.svg" alt="Logotipo horizontal en negativo" /><figcaption>Horizontal · negativo</figcaption></figure>
+  <figure><img src="margaritas-apilado.svg" alt="Logotipo apilado" /><figcaption>Apilado</figcaption></figure>
+  <figure class="blush"><img src="margaritas-sello.svg" alt="Sello circular" /><figcaption>Sello · perfil de redes</figcaption></figure>
+  <figure><img src="margaritas-isotipo.svg" alt="Isotipo" style="height:140px" /><figcaption>Isotipo</figcaption></figure>
+  <figure class="dark"><img src="margaritas-isotipo-claro.svg" alt="Isotipo en negativo" style="height:140px" /><figcaption>Isotipo · negativo</figcaption></figure>
+  <figure><div style="display:flex;gap:18px;align-items:end"><img src="favicon.svg" style="height:64px" alt="" /><img src="favicon.svg" style="height:32px" alt="" /><img src="favicon.svg" style="height:16px" alt="" /></div><figcaption>Favicon · 64 / 32 / 16</figcaption></figure>
+  <figure class="wide"><div class="swatches">
+    <div class="sw"><i style="background:#461B14"></i>Vino<br>#461B14</div>
+    <div class="sw"><i style="background:#7D5255"></i>Rosa viejo<br>#7D5255</div>
+    <div class="sw"><i style="background:#E0CBB9"></i>Nude<br>#E0CBB9</div>
+    <div class="sw"><i style="background:#F1D9D6"></i>Pétalo<br>#F1D9D6</div>
+    <div class="sw"><i style="background:#FBF6F1"></i>Perla<br>#FBF6F1</div>
+  </div><figcaption>Paleta</figcaption></figure>
+</section>
+</body>
+</html>

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, MotionConfig } from 'framer-motion'
+import { CartProvider } from './cart/CartContext'
+import { CartDrawer, CartToast } from './cart/CartUI'
 import Preloader from './components/Preloader'
+import Cursor from './components/Cursor'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import Essence from './components/Essence'
+import ComoPedir from './components/ComoPedir'
 import Benefits from './components/Benefits'
 import Collection from './components/Collection'
 import Footer from './components/Footer'
@@ -24,24 +28,31 @@ export default function App() {
 
   useEffect(() => {
     if (!loading) return
-    const timer = setTimeout(() => setLoading(false), 1900)
+    const timer = setTimeout(() => setLoading(false), 2100)
     return () => clearTimeout(timer)
   }, [loading])
 
   return (
+    <CartProvider>
     <MotionConfig reducedMotion="user">
       <AnimatePresence>{loading && <Preloader key="preloader" />}</AnimatePresence>
 
+      <div aria-hidden className="grain-overlay" />
+      <Cursor />
       <Navbar />
       <main>
         <Hero />
         <Marquee />
         <Essence />
+        <ComoPedir />
         <Benefits />
         <Collection />
       </main>
       <Footer />
       <FloatingWhatsapp />
+      <CartDrawer />
+      <CartToast />
     </MotionConfig>
+    </CartProvider>
   )
 }

@@ -1,4 +1,4 @@
-import { image } from '../lib/images'
+import { image, optionalImage } from '../lib/images'
 
 export const WHATSAPP_NUMBER = '573008310528'
 export const INSTAGRAM_URL = 'https://www.instagram.com/margaritas___col/'
@@ -6,6 +6,9 @@ export const INSTAGRAM_URL = 'https://www.instagram.com/margaritas___col/'
 /** Recargo aplicado a las tallas grandes (COP). */
 export const OVERSIZE_SURCHARGE = 10000
 export const OVERSIZE_SIZES = ['XL', 'XXL']
+
+/** Aviso de tiempos de despacho, visible en la cinta superior y junto a los pedidos. */
+export const SHIPPING_NOTICE = 'Despachamos en máximo 7 días hábiles, o antes según disponibilidad.'
 
 export const SIZES = ['S', 'M', 'L', 'XL', 'XXL']
 
@@ -49,7 +52,7 @@ export const products = [
         ],
       },
     ],
-    prices: { short: 90000, pantalon: 95000 },
+    prices: { short: 84900, pantalon: 89900 },
     accent: '#2C3E6B',
   },
   {
@@ -69,7 +72,7 @@ export const products = [
         photos: [{ ...image('samantha-algodon-lineas'), garment: 'short' }],
       },
     ],
-    prices: { short: 80000, pantalon: 90000 },
+    prices: { short: 74900, pantalon: 84900 },
     accent: '#7D5255',
   },
   {
@@ -97,7 +100,7 @@ export const products = [
         photos: [{ ...image('geraldine-rosado-pantalon'), garment: 'pantalon' }],
       },
     ],
-    prices: { short: 80000, pantalon: 90000 },
+    prices: { short: 74900, pantalon: 84900 },
     accent: '#B08968',
   },
 ]
@@ -112,3 +115,54 @@ export function photoIndexFor(variant, type) {
   const match = variant.photos.findIndex((photo) => photo.garment === type)
   return match === -1 ? 0 : match
 }
+
+/**
+ * Accesorios: no tienen tipo ni talla. Los colores no se eligen; se despachan
+ * los tonos disponibles, así que las fotos sólo muestran la variedad.
+ * `price` es por unidad; `priceUnit` añade la etiqueta (p. ej. «c/u»).
+ */
+export const accessories = [
+  {
+    id: 'scrunchies',
+    kind: 'accessory',
+    name: 'Scrunchies de satín',
+    tagline: 'Nuevo · Accesorio',
+    description:
+      'Nuestros scrunchies están elaborados en tela de satín, un material suave y delicado con tu cabello.',
+    benefits: [
+      'Ayudan a reducir la fricción',
+      'Evitan marcas pronunciadas',
+      'Conservan tus peinados por más tiempo',
+    ],
+    note: 'No se reciben solicitudes de colores específicos: los pedidos se realizan únicamente con los tonos disponibles.',
+    photos: [
+      { ...image('scrunchies-crema-animal-azul'), alt: 'Scrunchies de satín crema, animal print y azul' },
+      { ...image('scrunchies-vino-rosado'), alt: 'Scrunchies de satín vino y rosado' },
+      { ...image('scrunchies-negro-lila-celeste'), alt: 'Scrunchies de satín negro, lila y celeste' },
+    ],
+    price: 2900,
+    priceUnit: 'c/u',
+    colorChoice: false,
+  },
+  {
+    id: 'gorro',
+    kind: 'accessory',
+    name: 'Gorro de satín',
+    tagline: 'Nuevo · Accesorio',
+    description:
+      'Nuestros gorros están elaborados en tela de satín, un material suave y delicado. Son ideales para proteger tu cabello mientras duermes y mantenerlo suave, organizado y con una apariencia saludable.',
+    benefits: [
+      'Reduce la fricción durante la noche',
+      'Disminuye el frizz',
+      'Evita enredos',
+      'Conserva tus peinados por más tiempo',
+    ],
+    note: 'Puedes elegir el color que más te guste.',
+    // La foto se añade al guardar `pijamas/Gorro (1).jpg` y ejecutar `npm run optimize:images`.
+    photos: [optionalImage('gorro-negro')]
+      .filter(Boolean)
+      .map((photo) => ({ ...photo, alt: 'Gorro de satín negro' })),
+    price: 24900,
+    colorChoice: true,
+  },
+]

@@ -25,6 +25,14 @@ npm run build
 
 `npm run preview` sirve localmente el contenido de `dist/`.
 
+## Páginas
+
+- `/` — landing (`index.html` → `src/main.jsx` → `src/App.jsx`).
+- `/tienda/` — tienda con el catálogo completo, filtros, preguntas frecuentes y pedido
+  por WhatsApp (`tienda/index.html` → `src/shop.jsx` → `src/ShopApp.jsx`).
+  `tienda/?p=<id>` abre directamente un producto y `tienda/#accesorios` filtra los
+  accesorios.
+
 ## Estructura
 
 ```
@@ -57,7 +65,66 @@ tokens en `src/index.css`:
 | `--color-cream`| `#FCFAFA` | Fondo                            |
 
 Los tonos `blush`, `sand` y `mist` son interpolaciones de los anteriores para dar
-profundidad a los fondos. El logotipo es el wordmark *MARGARITAS* en Playfair Display
+profundidad a los fondos.
+`petal` (`#F1D9D6`) y `pearl` (`#FBF6F1`) añaden el acento *coquette* (moños, perlas,
+encaje) y `Pinyon Script` se usa sólo para detalles caligráficos.
+
+## Logotipo
+
+El isotipo es una margarita de doce pétalos (alternando largos y cortos) con un anillo
+de polen en el centro, junto al wordmark *MARGARITAS*. En la web se usa el componente
+`src/components/Logo.jsx` (`<Logo />` y `<LogoMark />`, que puede florecer y girar).
+
+Los archivos para imprimir, redes o empaques están en `public/brand/`, con el texto ya
+convertido a trazos para que se vea igual sin tener la tipografía instalada:
+
+| Archivo                            | Uso                              |
+| ---------------------------------- | -------------------------------- |
+| `margaritas-horizontal.svg`        | Cabeceras, documentos            |
+| `margaritas-horizontal-claro.svg`  | Sobre fondo vino                 |
+| `margaritas-apilado.svg`           | Etiquetas, tarjetas              |
+| `margaritas-sello.svg`             | Foto de perfil, stickers         |
+| `margaritas-isotipo(-claro).svg`   | Sólo la flor                     |
+| `favicon.svg`                      | Icono de la pestaña              |
+
+Con el sitio en marcha, `/brand/` muestra todas las versiones y la paleta.
+
+## Carrito y pedido por WhatsApp
+
+El carrito (`src/cart/`) funciona en la landing y en la tienda y se guarda en el navegador,
+así que se conserva al cambiar de página o recargar. Las fichas tienen «Agregar al carrito» y
+«Comprar ahora» (agrega y abre el carrito). En el carrito se cambian cantidades, se quitan
+productos y se pueden dejar nombre, ciudad y una nota.
+
+No hay pasarela de pagos: «Enviar pedido por WhatsApp» redacta un mensaje con cada producto
+(diseño, tipo, talla o color), cantidad, precio unitario, subtotal y total, y lo abre en el
+WhatsApp configurado en `WHATSAPP_NUMBER`. El carrito guarda sólo las referencias y siempre
+recalcula los precios desde `src/data/products.js`, así que un cambio de precio se refleja
+de inmediato también en los mensajes.
+
+## Accesorios y despacho
+
+Los accesorios (`accessories` en `src/data/products.js`) no tienen tipo ni talla: se piden
+por cantidad. `price` es por unidad. Si `colorChoice` es `true`, el pedido incluye el color
+que escriba la clienta.
+
+La foto del gorro se añade guardándola como `pijamas/Gorro (1).jpg` y ejecutando
+`npm run optimize:images`; mientras falte, la tienda muestra un marcador.
+
+El aviso de tiempos de despacho está en `SHIPPING_NOTICE` (mismo archivo) y aparece en la
+cinta superior, junto a los botones de pedido y en las preguntas frecuentes.
+
+## Animaciones
+
+Todo el movimiento está hecho con Framer Motion y respeta `prefers-reduced-motion`:
+
+- Cortina de apertura con moño dibujado, contador y apertura en dos mitades.
+- Hero editorial con collage en parallax según el cursor e insignia giratoria.
+- Cintas cruzadas cuya velocidad responde al scroll (`Marquee`).
+- Manifiesto que se entinta palabra por palabra (`ScrollText`).
+- Sección *Cómo pedir* anclada con desplazamiento horizontal.
+- Tarjetas con inclinación 3D (`Tilt`), botones magnéticos (`Magnetic`) y cursor
+  acompañante en escritorio (`Cursor`). El logotipo es el wordmark *MARGARITAS* en Playfair Display
 itálica con `letter-spacing` amplio (clase `.wordmark`).
 
 ## Catálogo

@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 
 /* ------------------------------------------------------------------
-   Design tokens — paleta original de Margaritas conservada intacta.
-   Los tonos derivados (blush, sand, mist) sólo interpolan entre ellos.
+   Design tokens — la paleta original de Margaritas se conserva.
+   `petal` y `pearl` son interpolaciones suaves entre rose y cream
+   para el acento "coquette" (moños, perlas, encajes).
 ------------------------------------------------------------------- */
 @theme {
   --color-nude: #e0cbb9;
@@ -14,32 +15,27 @@
   --color-sand: #ead9c9;
   --color-mist: #f7f1ec;
   --color-wine-soft: #5d2a20;
+  --color-petal: #f1d9d6;
+  --color-pearl: #fbf6f1;
 
   --font-display: 'Playfair Display', ui-serif, Georgia, serif;
   --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --font-script: 'Pinyon Script', 'Playfair Display', cursive;
 
   --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --animate-float: float 9s ease-in-out infinite;
-  --animate-shimmer: shimmer 2.4s linear infinite;
   --animate-spin-slow: spin 26s linear infinite;
+  --animate-twinkle: twinkle 3.2s ease-in-out infinite;
 
-  @keyframes float {
+  @keyframes twinkle {
     0%,
     100% {
-      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.25;
+      transform: scale(0.7) rotate(0deg);
     }
     50% {
-      transform: translate3d(0, -26px, 0) scale(1.05);
-    }
-  }
-
-  @keyframes shimmer {
-    from {
-      background-position: -200% 0;
-    }
-    to {
-      background-position: 200% 0;
+      opacity: 1;
+      transform: scale(1) rotate(45deg);
     }
   }
 }
@@ -54,11 +50,11 @@
   }
 
   body {
-    background-color: var(--color-cream);
+    background-color: var(--color-pearl);
     color: var(--color-wine);
     font-family: var(--font-sans);
     font-weight: 400;
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -71,18 +67,16 @@
   }
 
   ::selection {
-    background-color: var(--color-nude);
+    background-color: var(--color-petal);
     color: var(--color-wine);
   }
 
-  /* Foco visible sólo para teclado, en el color de la marca. */
   :focus-visible {
     outline: 2px solid var(--color-rose);
     outline-offset: 3px;
     border-radius: 999px;
   }
 
-  /* Evita el zoom automático de iOS al enfocar controles. */
   input,
   select,
   textarea,
@@ -90,17 +84,16 @@
     font-size: inherit;
   }
 
-  /* Scrollbar en tonos de la marca */
   ::-webkit-scrollbar {
     width: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-mist);
+    background: var(--color-pearl);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-nude);
+    background: var(--color-petal);
     border-radius: 999px;
-    border: 2px solid var(--color-mist);
+    border: 2px solid var(--color-pearl);
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-rose);
@@ -121,7 +114,7 @@
 }
 
 @layer components {
-  /* Logotipo — se conserva el tratamiento original del wordmark */
+  /* Logotipo — tratamiento original del wordmark */
   .wordmark {
     font-family: var(--font-display);
     font-style: italic;
@@ -135,14 +128,20 @@
     font-weight: 500;
   }
 
-  /* Grano sutil sobre las secciones claras */
-  .grain::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.28;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  .script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* Texto con contorno para numerales editoriales */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px currentColor;
+  }
+  .text-outline-wine {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-wine);
   }
 
   .text-gradient-wine {
@@ -156,5 +155,37 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  /* Borde festoneado tipo encaje (scallop) en la parte superior */
+  .scallop-top {
+    --s: 22px;
+    -webkit-mask:
+      radial-gradient(var(--s) at 50% var(--s), #000 99%, #0000 101%) 50% 0 / calc(2 * var(--s)) 100% repeat-x,
+      linear-gradient(#000 0 0) 0 var(--s) / 100% 100% no-repeat;
+    mask:
+      radial-gradient(var(--s) at 50% var(--s), #000 99%, #0000 101%) 50% 0 / calc(2 * var(--s)) 100% repeat-x,
+      linear-gradient(#000 0 0) 0 var(--s) / 100% 100% no-repeat;
+  }
+
+  /* Encaje de puntos muy sutil para fondos */
+  .lace {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      color-mix(in oklab, var(--color-wine) 9%, transparent) 1px,
+      transparent 0
+    );
+    background-size: 22px 22px;
+  }
+
+  /* Grano global, fijo y sin eventos */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
   }
 }

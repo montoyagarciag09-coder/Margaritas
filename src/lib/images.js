@@ -35,6 +35,11 @@ export function image(name) {
   }
 }
 
+/** Como `image`, pero devuelve null si la foto aún no existe. */
+export function optionalImage(name) {
+  return catalog[name]?.length ? image(name) : null
+}
+
 /** Atributo `sizes` según dónde se muestre la foto (no confundir con tallas). */
 export const IMAGE_SIZES = {
   card: '(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw',
