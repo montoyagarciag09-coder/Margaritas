@@ -10,6 +10,9 @@ export const OVERSIZE_SIZES = ['XL', 'XXL']
 /** Aviso de tiempos de despacho, visible en la cinta superior y junto a los pedidos. */
 export const SHIPPING_NOTICE = 'Despachamos en máximo 7 días hábiles, o antes según disponibilidad.'
 
+/** Las pijamas se pueden pedir en cualquier color escribiendo por WhatsApp. */
+export const COLOR_NOTICE = 'Pide tu pijama en el color que quieras por WhatsApp.'
+
 export const SIZES = ['S', 'M', 'L', 'XL', 'XXL']
 
 export const TYPES = [

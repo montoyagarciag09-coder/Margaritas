@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import { EASE } from '../lib/motion'
-import { SHIPPING_NOTICE, WHATSAPP_NUMBER } from '../data/products'
+import { COLOR_NOTICE, SHIPPING_NOTICE, WHATSAPP_NUMBER } from '../data/products'
 import { useLockBodyScroll } from '../hooks/useLockBodyScroll'
 import { WhatsappIcon } from './Icons'
 import Logo from './Logo'
@@ -14,17 +14,15 @@ import { CartButton } from '../cart/CartUI'
  */
 const LINKS = {
   home: [
-    { key: 'inicio', href: '#inicio', label: 'Inicio' },
+    { key: 'tienda', href: 'tienda/', label: 'Tienda' },
     { key: 'historia', href: '#historia', label: 'Esencia' },
     { key: 'como-pedir', href: '#como-pedir', label: 'Cómo pedir' },
-    { key: 'tienda', href: 'tienda/', label: 'Tienda' },
     { key: 'contacto', href: '#contacto', label: 'Contacto' },
   ],
   shop: [
-    { key: 'inicio', href: '../', label: 'Inicio' },
+    { key: 'tienda', href: '#catalogo', label: 'Tienda' },
     { key: 'historia', href: '../#historia', label: 'Esencia' },
     { key: 'como-pedir', href: '../#como-pedir', label: 'Cómo pedir' },
-    { key: 'tienda', href: '#catalogo', label: 'Tienda' },
     { key: 'contacto', href: '#contacto', label: 'Contacto' },
   ],
 }
@@ -58,7 +56,7 @@ export default function Navbar({ page = 'home' }) {
   const [open, setOpen] = useState(false)
   const [hover, setHover] = useState(null)
   const { scrollY, scrollYProgress } = useScroll()
-  const active = useActiveSection(links, page === 'shop' ? 'tienda' : 'inicio')
+  const active = useActiveSection(links, page === 'shop' ? 'tienda' : null)
 
   // Se esconde al bajar y reaparece al subir: menos ruido al leer.
   useMotionValueEvent(scrollY, 'change', (value) => {
@@ -87,7 +85,7 @@ export default function Navbar({ page = 'home' }) {
           >
             {Array.from({ length: 8 }).map((_, i) => (
               <span key={i} className="flex items-center gap-10">
-                <span>{SHIPPING_NOTICE}</span>
+                <span>{i % 2 ? COLOR_NOTICE : SHIPPING_NOTICE}</span>
                 <span className="text-petal">✿</span>
               </span>
             ))}
@@ -99,7 +97,7 @@ export default function Navbar({ page = 'home' }) {
           className={`mx-auto flex max-w-6xl items-center justify-between rounded-full py-2 pr-2 pl-5 transition-all duration-500 md:pl-7 ${
             scrolled
               ? 'border border-wine/10 bg-pearl/75 shadow-[0_20px_50px_-30px_rgba(70,27,20,0.45)] backdrop-blur-xl'
-              : 'border border-transparent'
+              : 'border border-wine/10 bg-pearl/70 backdrop-blur-xl'
           }`}
         >
           <a href={page === 'shop' ? '../' : '#inicio'} aria-label="Margaritas, inicio" className="group inline-flex min-h-11 items-center">

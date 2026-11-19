@@ -1,58 +1,43 @@
-import { useEffect, useState } from 'react'
-import { AnimatePresence, MotionConfig } from 'framer-motion'
+import { MotionConfig } from 'framer-motion'
 import { CartProvider } from './cart/CartContext'
 import { CartDrawer, CartToast } from './cart/CartUI'
-import Preloader from './components/Preloader'
-import Cursor from './components/Cursor'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import Essence from './components/Essence'
-import ComoPedir from './components/ComoPedir'
-import Benefits from './components/Benefits'
-import Collection from './components/Collection'
 import Footer from './components/Footer'
 import FloatingWhatsapp from './components/FloatingWhatsapp'
+import { HowToOrder, WhyUs } from './components/home/HomeSections'
+import { ShopFaq } from './components/shop/ShopSections'
 
 /**
- * La cortina de apertura se muestra en cada carga: es parte de la identidad
- * de la marca. Sólo se omite si el sistema pide movimiento reducido.
+ * Landing de marca: la esencia, por qué elegirnos (beneficios y guía de
+ * telas), cómo pedir y preguntas frecuentes. La compra vive en /tienda, a la
+ * que llevan el inicio, el menú y la guía de telas. Sin pantalla de carga: la mayoría de visitas
+ * llega desde Instagram en el celular y cada segundo de espera cuenta.
  */
-function shouldShowIntro() {
-  if (typeof window === 'undefined') return false
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
 export default function App() {
-  const [loading, setLoading] = useState(shouldShowIntro)
-
-  useEffect(() => {
-    if (!loading) return
-    const timer = setTimeout(() => setLoading(false), 2100)
-    return () => clearTimeout(timer)
-  }, [loading])
-
   return (
     <CartProvider>
-    <MotionConfig reducedMotion="user">
-      <AnimatePresence>{loading && <Preloader key="preloader" />}</AnimatePresence>
-
-      <div aria-hidden className="grain-overlay" />
-      <Cursor />
-      <Navbar />
-      <main>
-        <Hero />
-        <Marquee />
-        <Essence />
-        <ComoPedir />
-        <Benefits />
-        <Collection />
-      </main>
-      <Footer />
-      <FloatingWhatsapp />
-      <CartDrawer />
-      <CartToast />
-    </MotionConfig>
+      <MotionConfig reducedMotion="user">
+        <div aria-hidden className="grain-overlay" />
+        <Navbar />
+        <main>
+          <Hero />
+          <Marquee />
+          {/* 1 · La marca (la compra vive en /tienda) */}
+          <Essence />
+          {/* 2 · Por qué elegirnos */}
+          <WhyUs />
+          {/* 3 · Cómo pedir y dudas */}
+          <HowToOrder />
+          <ShopFaq />
+        </main>
+        <Footer />
+        <FloatingWhatsapp />
+        <CartDrawer />
+        <CartToast />
+      </MotionConfig>
     </CartProvider>
   )
 }

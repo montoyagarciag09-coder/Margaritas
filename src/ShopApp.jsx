@@ -1,7 +1,6 @@
 import { MotionConfig } from 'framer-motion'
 import { CartProvider } from './cart/CartContext'
 import { CartDrawer, CartToast } from './cart/CartUI'
-import Cursor from './components/Cursor'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import FloatingWhatsapp from './components/FloatingWhatsapp'
@@ -14,7 +13,6 @@ export default function ShopApp() {
     <CartProvider>
     <MotionConfig reducedMotion="user">
       <div aria-hidden className="grain-overlay" />
-      <Cursor />
       <Navbar page="shop" />
       <main>
         <ShopHeader />

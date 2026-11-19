@@ -232,7 +232,7 @@ export function CartDrawer() {
                     <textarea
                       className={`${field} resize-none`}
                       rows={2}
-                      placeholder="Nota para tu pedido"
+                      placeholder="Nota para tu pedido (p. ej., el color de pijama que quieres)"
                       value={customer.notes}
                       maxLength={240}
                       onChange={(e) => setCustomer((c) => ({ ...c, notes: e.target.value }))}

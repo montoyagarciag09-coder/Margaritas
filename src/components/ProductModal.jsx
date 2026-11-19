@@ -10,6 +10,7 @@ import { IMAGE_SIZES } from '../lib/images'
 import AnimatedPrice from './AnimatedPrice'
 import { CloseIcon } from './Icons'
 import { BagIcon } from '../cart/CartUI'
+import ColorRequest from './ColorRequest'
 
 export default function ProductModal({ product, onClose }) {
   const [type, setType] = useState('short')
@@ -318,9 +319,8 @@ export default function ProductModal({ product, onClose }) {
               >
                 Talla especial · +{formatCOP(OVERSIZE_SURCHARGE)}
               </motion.p>
-              <p className="mt-3 rounded-2xl bg-petal/60 px-4 py-3 text-xs italic text-wine/70">
-                {SHIPPING_NOTICE}
-              </p>
+              <ColorRequest product={product} className="mt-3" />
+              <p className="mt-3 px-1 text-xs italic text-wine/55">{SHIPPING_NOTICE}</p>
             </div>
 
             {/* En móvil queda fijo al fondo de la hoja: el precio y el CTA

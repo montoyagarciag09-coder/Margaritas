@@ -17,14 +17,14 @@ const lineUp = {
   show: { y: '0%', transition: { duration: 1.1, ease: EASE } },
 }
 
-export default function Footer({ eyebrow = '(05) — Hablemos' }) {
+export default function Footer({ eyebrow = 'Hablemos' }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] })
   const ctaScale = useTransform(scrollYProgress, [0, 0.5], [0.85, 1])
   const bowRotate = useTransform(scrollYProgress, [0, 1], [-30, 20])
 
   return (
-    <footer id="contacto" ref={ref} className="relative overflow-hidden bg-wine px-6 pt-28 pb-8 text-nude md:pt-36">
+    <footer id="contacto" ref={ref} className="relative overflow-hidden bg-wine px-6 pt-20 pb-24 text-nude md:pt-36 md:pb-8">
       {/* CTA principal */}
       <motion.div style={{ scale: ctaScale }} className="relative mx-auto max-w-6xl text-center">
         <Reveal>
@@ -55,7 +55,7 @@ export default function Footer({ eyebrow = '(05) — Hablemos' }) {
           </span>
         </motion.h2>
 
-        <motion.div style={{ rotate: bowRotate }} className="absolute -top-4 right-2 text-petal/70 md:right-16">
+        <motion.div style={{ rotate: bowRotate }} className="absolute -top-4 right-16 hidden text-petal/70 md:block">
           <Bow className="h-16 w-20 md:h-24 md:w-32" strokeWidth={1} />
         </motion.div>
 
@@ -89,8 +89,8 @@ export default function Footer({ eyebrow = '(05) — Hablemos' }) {
       </motion.div>
 
       {/* Columnas */}
-      <div className="relative mx-auto mt-28 grid max-w-7xl gap-12 border-t border-nude/15 pt-14 md:grid-cols-12">
-        <div className="md:col-span-5">
+      <div className="relative mx-auto mt-20 grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 border-t border-nude/15 pt-12 md:mt-28 md:grid-cols-12 md:gap-12 md:pt-14">
+        <div className="col-span-2 md:col-span-5">
           <Logo tone="light" tagline markClassName="h-12 w-12" textClassName="text-2xl" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-nude/65">
             Emprendimiento colombiano que une feminidad, comodidad y elegancia en cada puntada. Un
@@ -125,7 +125,7 @@ export default function Footer({ eyebrow = '(05) — Hablemos' }) {
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex min-h-11 items-center font-display text-3xl italic text-nude transition-opacity hover:opacity-75"
+            className="mt-6 inline-flex min-h-11 items-center font-display text-lg italic text-nude transition-opacity hover:opacity-75 md:text-3xl"
           >
             +57 300 831 0528
           </a>
@@ -154,7 +154,7 @@ export default function Footer({ eyebrow = '(05) — Hablemos' }) {
       {/* Wordmark gigante */}
       <motion.div
         aria-hidden
-        className="wordmark mt-20 flex justify-center overflow-hidden text-[8.6vw] leading-[0.85] font-semibold text-nude/10 select-none"
+        className="wordmark mt-14 flex justify-center md:mt-20 overflow-hidden text-[8.6vw] leading-[0.85] font-semibold text-nude/10 select-none"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.4 }}

@@ -35,8 +35,9 @@ export function tileData(item) {
 /**
  * Ficha de catálogo limpia: foto 4:5, nombre, precio y muestras de tela.
  * Con `href` es un enlace (vitrina de la landing); si no, un botón.
+ * `wide` la hace apaisada en celular cuando ocupa el ancho completo.
  */
-export default function ShopTile({ item, onOpen, href, index = 0 }) {
+export default function ShopTile({ item, onOpen, href, index = 0, wide = false }) {
   const [hovered, setHovered] = useState(false)
   const data = tileData(item)
   const cover = data.photos[0]
@@ -58,7 +59,11 @@ export default function ShopTile({ item, onOpen, href, index = 0 }) {
         onMouseLeave={() => setHovered(false)}
         data-cursor="Ver"
       >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-mist">
+        <div
+          className={`relative overflow-hidden rounded-[1.5rem] bg-mist ${
+            wide ? 'aspect-[4/3] lg:aspect-[4/5]' : 'aspect-[4/5]'
+          }`}
+        >
           {cover ? (
             <AnimatePresence initial={false}>
               <motion.img

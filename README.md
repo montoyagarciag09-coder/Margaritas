@@ -114,18 +114,27 @@ La foto del gorro se añade guardándola como `pijamas/Gorro (1).jpg` y ejecutan
 El aviso de tiempos de despacho está en `SHIPPING_NOTICE` (mismo archivo) y aparece en la
 cinta superior, junto a los botones de pedido y en las preguntas frecuentes.
 
-## Animaciones
+## Landing
 
-Todo el movimiento está hecho con Framer Motion y respeta `prefers-reduced-motion`:
+Landing de marca; la compra vive en `/tienda`, a la que llevan el inicio, el menú y la guía
+de telas. Todas las secciones usan el mismo encabezado (`src/components/home/SectionHeader.jsx`)
+y fondos alternados:
 
-- Cortina de apertura con moño dibujado, contador y apertura en dos mitades.
-- Hero editorial con collage en parallax según el cursor e insignia giratoria.
-- Cintas cruzadas cuya velocidad responde al scroll (`Marquee`).
-- Manifiesto que se entinta palabra por palabra (`ScrollText`).
-- Sección *Cómo pedir* anclada con desplazamiento horizontal.
-- Tarjetas con inclinación 3D (`Tilt`), botones magnéticos (`Magnetic`) y cursor
-  acompañante en escritorio (`Cursor`). El logotipo es el wordmark *MARGARITAS* en Playfair Display
-itálica con `letter-spacing` amplio (clase `.wordmark`).
+1. **Inicio**: el titular, «Explorar colección» y la margarita del logo animada
+   (`src/components/home/HeroBloom.jsx`). En celular va pequeña junto al titular.
+   Debajo, las cintas de la marca.
+2. **Nuestra esencia** (`#historia`): «Cuando el día termina…», el manifiesto y la cita.
+3. **Por qué Margaritas** (`#por-que`): beneficios, la guía «¿Qué tela es para ti?» y el
+   aviso de color a elección.
+4. **Cómo pedir** (`#como-pedir`): los cuatro pasos y «Lista para consentirte».
+5. **Preguntas frecuentes** y pie de página (`#contacto`).
+
+### Color a elección
+
+Las pijamas se pueden pedir en cualquier color por WhatsApp (`COLOR_NOTICE` en
+`src/data/products.js`). El aviso (`src/components/ColorRequest.jsx`) aparece en la cinta
+superior, en la ficha de cada pijama, en la cabecera de la tienda, en la landing y en las
+preguntas frecuentes, y abre WhatsApp con un mensaje listo.
 
 ## Catálogo
 

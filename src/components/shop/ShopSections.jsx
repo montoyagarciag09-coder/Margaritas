@@ -5,6 +5,7 @@ import { formatCOP } from '../../lib/pricing'
 import { OVERSIZE_SURCHARGE, SHIPPING_NOTICE, WHATSAPP_NUMBER } from '../../data/products'
 import { LogoMark } from '../Logo'
 import { WhatsappIcon } from '../Icons'
+import ColorRequest from '../ColorRequest'
 
 /** Encabezado de la tienda: miga de pan, título y aviso de despacho. */
 export function ShopHeader() {
@@ -42,6 +43,15 @@ export function ShopHeader() {
             WhatsApp en un toque.
           </motion.p>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.5 }}
+          className="mt-8 max-w-xl"
+        >
+          <ColorRequest />
+        </motion.div>
       </div>
     </header>
   )
@@ -73,9 +83,9 @@ const PERKS = [
 /** Franja de garantías de compra. */
 export function ShopPerks() {
   return (
-    <section className="border-y border-wine/10 bg-mist/70 px-6 py-12 lg:px-10">
+    <section className="border-y border-wine/10 bg-mist/70 py-6 md:py-12">
       <motion.ul
-        className="mx-auto grid max-w-7xl grid-cols-2 gap-8 lg:grid-cols-4"
+        className="mx-auto flex max-w-7xl snap-x gap-6 overflow-x-auto scroll-px-6 px-6 [scrollbar-width:none] md:grid md:grid-cols-4 md:gap-8 md:overflow-visible lg:px-10 [&::-webkit-scrollbar]:hidden"
         initial="hidden"
         whileInView="show"
         viewport={viewport}
@@ -84,13 +94,13 @@ export function ShopPerks() {
         {PERKS.map((p) => (
           <motion.li
             key={p.title}
-            className="flex flex-col gap-3 sm:flex-row sm:items-start"
+            className="flex w-[64vw] shrink-0 snap-start items-start gap-3 sm:w-[40vw] md:w-auto"
             variants={{
               hidden: { opacity: 0, y: 20 },
               show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
             }}
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pearl text-wine">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pearl text-wine md:h-11 md:w-11">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
                 {p.icon}
               </svg>
@@ -118,6 +128,10 @@ const FAQ = [
   {
     q: '¿Las tallas XL y XXL tienen otro precio?',
     a: `Sí, las tallas XL y XXL tienen un recargo de ${formatCOP(OVERSIZE_SURCHARGE)}. El precio se ajusta solo al elegir la talla.`,
+  },
+  {
+    q: '¿Puedo pedir mi pijama en otro color?',
+    a: 'Sí. Escríbenos por WhatsApp y pide tu pijama en el color que quieras; te confirmamos disponibilidad y tiempos.',
   },
   {
     q: '¿Puedo elegir el color de los scrunchies?',
