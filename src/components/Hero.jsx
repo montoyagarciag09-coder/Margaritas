@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { EASE } from '../lib/motion'
 import HeroBloom from './home/HeroBloom'
-import { ArrowIcon, Heart } from './Icons'
+import { Heart } from './Icons'
 import { LogoMark } from './Logo'
 
 const rise = (delay) => ({
@@ -11,8 +11,8 @@ const rise = (delay) => ({
 })
 
 /**
- * Inicio: el titular de la marca, un camino claro a la tienda y la margarita
- * del logo animada. En celular el texto va primero; en escritorio, lado a lado.
+ * Inicio: el titular de la marca y la margarita del logo animada; el botón a
+ * la tienda va justo debajo de las cintas. En celular el texto va primero; en escritorio, lado a lado.
  */
 export default function Hero() {
   return (
@@ -100,25 +100,8 @@ export default function Hero() {
             algodón y telas ligeras para tus noches más bonitas.
           </motion.p>
 
-          <motion.div className="mt-7 flex flex-wrap items-center gap-3 md:mt-10" {...rise(0.6)}>
-            <a
-              href="tienda/"
-              className="group inline-flex min-h-13 items-center gap-3 rounded-full bg-wine py-3 pr-3 pl-7 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-nude transition-colors hover:bg-rose"
-            >
-              Explorar colección
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-nude text-wine transition-transform duration-500 group-hover:translate-x-0.5">
-                <ArrowIcon className="h-4 w-4" />
-              </span>
-            </a>
-            <a
-              href="#historia"
-              className="inline-flex min-h-13 items-center px-4 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-wine/70 underline-offset-8 hover:underline"
-            >
-              Nuestra esencia
-            </a>
-          </motion.div>
 
-          <motion.p className="mt-6 text-xs leading-snug text-wine/60 md:mt-10" {...rise(0.75)}>
+          <motion.p className="mt-7 text-xs leading-snug text-wine/60 md:mt-10" {...rise(0.75)}>
             <span className="font-display text-base italic text-wine">3 referencias</span>
             {' · '}Tallas S a XXL · Envíos nacionales
           </motion.p>

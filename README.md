@@ -116,13 +116,13 @@ cinta superior, junto a los botones de pedido y en las preguntas frecuentes.
 
 ## Landing
 
-Landing de marca; la compra vive en `/tienda`, a la que llevan el inicio, el menú y la guía
-de telas. Todas las secciones usan el mismo encabezado (`src/components/home/SectionHeader.jsx`)
+Landing de marca; la compra vive en `/tienda`, a la que llevan el botón «Ir a la tienda», el
+menú y la guía de telas. Todas las secciones usan el mismo encabezado (`src/components/home/SectionHeader.jsx`)
 y fondos alternados:
 
-1. **Inicio**: el titular, «Explorar colección» y la margarita del logo animada
+1. **Inicio**: el titular y la margarita del logo animada
    (`src/components/home/HeroBloom.jsx`). En celular va pequeña junto al titular.
-   Debajo, las cintas de la marca.
+   Debajo, las cintas de la marca y el botón «Ir a la tienda».
 2. **Nuestra esencia** (`#historia`): «Cuando el día termina…», el manifiesto y la cita.
 3. **Por qué Margaritas** (`#por-que`): beneficios, la guía «¿Qué tela es para ti?» y el
    aviso de color a elección.
