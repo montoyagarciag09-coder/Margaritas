@@ -7,7 +7,7 @@ import Marquee from './components/Marquee'
 import Essence from './components/Essence'
 import Footer from './components/Footer'
 import FloatingWhatsapp from './components/FloatingWhatsapp'
-import { HowToOrder, WhyUs } from './components/home/HomeSections'
+import { HowToOrder, ShopCta, WhyUs } from './components/home/HomeSections'
 import { ShopFaq } from './components/shop/ShopSections'
 
 /**
@@ -25,6 +25,7 @@ export default function App() {
         <main>
           <Hero />
           <Marquee />
+          <ShopCta />
           {/* 1 · La marca (la compra vive en /tienda) */}
           <Essence />
           {/* 2 · Por qué elegirnos */}

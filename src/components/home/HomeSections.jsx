@@ -238,3 +238,24 @@ export function HowToOrder() {
     </section>
   )
 }
+
+/** Acceso directo a la tienda, entre las cintas y Nuestra esencia. */
+export function ShopCta() {
+  return (
+    <div className="flex justify-center bg-pearl px-6 pt-16 pb-4 md:pt-20">
+      <motion.a
+        href="tienda/"
+        className="group inline-flex min-h-14 items-center gap-3 rounded-full bg-wine py-3 pr-3 pl-8 text-[0.72rem] font-medium uppercase tracking-[0.24em] text-nude transition-colors hover:bg-rose"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.7, ease: EASE }}
+      >
+        Ir a la tienda
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-nude text-wine transition-transform duration-500 group-hover:-rotate-45">
+          <ArrowIcon className="h-4 w-4" />
+        </span>
+      </motion.a>
+    </div>
+  )
+}
